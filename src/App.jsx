@@ -4,104 +4,99 @@ import { useState } from "react";
 import "./App.css";
 
 const average = (arr) =>
-    arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
-    const [movies, setMovies] = useState(tempMovieData);
-    const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
-    return (
+  return (
     <>
-        <NavBar>
-            <Logo />
-            <Searchbar />
-            <Results movies={movies}/>
-        </NavBar>
-        <Main>
-            <ListBox>
-                <MoviesList movies={movies} />
-            </ListBox>
-            <ListBox>
-                <WatchedMoviesSummory watched={watched} />
-                <WatchedMoviesList watched={watched} />
-            </ListBox>
-        </Main>
+      <NavBar>
+        <Logo />
+        <Searchbar />
+        <Results movies={movies} />
+      </NavBar>
+      <Main>
+        <ListBox>
+          <MoviesList movies={movies} />
+        </ListBox>
+        <ListBox>
+          <WatchedMoviesSummory watched={watched} />
+          <WatchedMoviesList watched={watched} />
+        </ListBox>
+      </Main>
     </>
   );
 }
 
-const Main = ({children}) => {
-  return (
-    <main className="main">
-        {children}
-    </main>
-  );
+const Main = ({ children }) => {
+  return <main className="main">{children}</main>;
 };
 
 function WatchedMoviesSummory({ watched }) {
-    const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-    const avgUserRating = average(watched.map((movie) => movie.userRating));
-    const avgRuntime = average(watched.map((movie) => movie.runtime));
-    return (
-        <>
-            <div className="summary">
-                <h2>Movies you watched</h2>
-                <div>
-                    <p>
-                        <span>#️⃣</span>
-                        <span>{watched.length} movies</span>
-                    </p>
-                    <p>
-                        <span>⭐️</span>
-                        <span>{avgImdbRating}</span>
-                    </p>
-                    <p>
-                        <span>🌟</span>
-                        <span>{avgUserRating}</span>
-                    </p>
-                    <p>
-                        <span>⏳</span>
-                        <span>{avgRuntime} min</span>
-                    </p>
-                </div>
-            </div>
-        </>
-    );
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  return (
+    <>
+      <div className="summary">
+        <h2>Movies you watched</h2>
+        <div>
+          <p>
+            <span>#️⃣</span>
+            <span>{watched.length} movies</span>
+          </p>
+          <p>
+            <span>⭐️</span>
+            <span>{avgImdbRating}</span>
+          </p>
+          <p>
+            <span>🌟</span>
+            <span>{avgUserRating}</span>
+          </p>
+          <p>
+            <span>⏳</span>
+            <span>{avgRuntime} min</span>
+          </p>
+        </div>
+      </div>
+    </>
+  );
 }
 function WatchedMoviesList({ watched }) {
-    return (
-        <ul className="list">
-            {watched.map((movie) => (
-                <WatchedMovie movie={movie} key={movie.imdbID} />
-            ))}
-        </ul>
-    );
+  return (
+    <ul className="list">
+      {watched.map((movie) => (
+        <WatchedMovie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
 }
 function WatchedMovie({ movie }) {
-    return (
-        <li>
-            <img src={movie.Poster} alt={`${movie.Title} poster`} />
-            <h3>{movie.Title}</h3>
-            <div>
-                <p>
-                    <span>⭐️</span>
-                    <span>{movie.imdbRating}</span>
-                </p>
-                <p>
-                    <span>🌟</span>
-                    <span>{movie.userRating}</span>
-                </p>
-                <p>
-                    <span>⏳</span>
-                    <span>{movie.runtime} min</span>
-                </p>
-            </div>
-        </li>
-    );
+  return (
+    <li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>⭐️</span>
+          <span>{movie.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{movie.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{movie.runtime} min</span>
+        </p>
+      </div>
+    </li>
+  );
 }
 
-function MoviesList({movies}) {
-
+function MoviesList({ movies }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
@@ -126,12 +121,8 @@ function Movie({ movie }) {
   );
 }
 
-const NavBar = ({children}) => {
-  return (
-    <nav className="nav-bar">
-        {children}
-    </nav>
-  );
+const NavBar = ({ children }) => {
+  return <nav className="nav-bar">{children}</nav>;
 };
 function Searchbar() {
   const [query, setQuery] = useState("");
@@ -156,25 +147,23 @@ function Logo() {
   );
 }
 
-function Results({movies}) {
+function Results({ movies }) {
   return (
     <p className="num-results">
-        {/* eslint-disable-next-line react/prop-types */}
+      {/* eslint-disable-next-line react/prop-types */}
       Found <strong>{movies.length}</strong> results
     </p>
   );
 }
 
-function ListBox({children}) {
-    const [isOpen, setIsOpen] = useState(true);
-    return (
-        <div className="box">
-            <button
-                className="btn-toggle"
-                onClick={() => setIsOpen((open) => !open)}
-            >
-                {isOpen ? "–" : "+"}
-            </button>
-            {isOpen && children}
-        </div>);
+function ListBox({ children }) {
+  const [isOpen, setIsOpen] = useState(true);
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && children}
+    </div>
+  );
 }
